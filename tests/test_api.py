@@ -6,7 +6,8 @@ client=TestClient(app)
 
 def test_api():
     data=load_breast_cancer()
-    sample=data.data[0].tolist()
+    sample = [float(x) for x in data.data[0]]
+
     response=client.post("/predict",json={'values':sample})
     assert response.status_code==200
     assert response.json()['prediction'] in [0,1]
