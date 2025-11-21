@@ -1,6 +1,8 @@
 name: CI PIPeLINE
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
@@ -22,19 +24,19 @@ jobs:
        run: python train.py
 
      - name: pylint test
-       run : pylint *.py || true
+       run: pylint *.py || true
 
      - name: pytest test
        run: pytest
 
      - name: docker build
-       run: docker build -t cancer-image
+       run: docker build -t cancer-image .
 
      - name: login docker
-       uses: actions/login-action@v3
+       uses: docker/login-action@v3
        with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
      - name: push docker image
        run: |
