@@ -11,6 +11,6 @@ class Dieses(BaseModel):
 
 @app.post('/predict')
 def predict(data:Dieses):
-    samp=np.array(data).reshape(1,-1)
-    pred=predict(samp)
+    
+    pred=predict(data.values)
     return {'prediction':pred}
