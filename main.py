@@ -6,10 +6,10 @@ from typing import List
 app=FastAPI()
 
 class Dieses(BaseModel):
-    features:List[float]
+    values:List[float]
 
 @app.post('/predict')
 def predict(data:Dieses):
     
-    pred=predict(data.features)
+    pred=predict(data.values)
     return {'prediction':pred}
