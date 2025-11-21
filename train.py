@@ -20,6 +20,6 @@ model=RandomForestClassifier(n_estimators=50,random_state=42)
 model.fit(x_train,y_train)
 print("model trained")
 with open('model.pkl','wb') as f:
-    pickle.dump(model)
+    pickle.dump(model,f)
 
 print("model saved")
