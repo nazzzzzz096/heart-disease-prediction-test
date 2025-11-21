@@ -1,0 +1,42 @@
+name: CI PIPeLINE
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: checkout repo
+       uses: actions/checkout@v3
+
+     - name: set up python
+       uses: actions/setup-python@v4
+       with:
+         python-version: "3.10"
+
+     - name: install dependencies
+       run: pip install -r requirements.txt
+
+     - name: train model
+       run: python train.py
+
+     - name: pylint test
+       run : pylint *.py || true
+
+     - name: pytest test
+       run: pytest
+
+     - name: docker build
+       run: docker build -t cancer-image
+
+     - name: login docker
+       uses: actions/login-action@v3
+       with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+     - name: push docker image
+       run: |
+          docker tag cancer-image ${{ secrets.DOCKERHUB_USERNAME }}/cancer-image:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/cancer-image:latest
