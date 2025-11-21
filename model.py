@@ -8,7 +8,7 @@ def load_model():
     return model
 
 
-def predict(sample):
+def predict_cancer(sample):
     arr=np.array(sample).reshape(1,-1)
     arr=preprocess_scale(arr)
     model=load_model()
